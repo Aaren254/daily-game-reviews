@@ -1,0 +1,1 @@
+game = random.choice(games)
