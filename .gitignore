@@ -205,3 +205,19 @@ cython_debug/
 marimo/_static/
 marimo/_lsp/
 __marimo__/
+# Ignore Python temp files
+__pycache__/
+*.pyc
+
+# Ignore virtual environments
+.env/
+.venv/
+venv/
+env/
+
+# Ignore VS Code settings
+.vscode/
+
+# Ignore generated video/audio
+output.mp4
+voice.mp3
