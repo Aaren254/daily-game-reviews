@@ -1,5 +1,4 @@
-moviepy
-gTTS
+
 openai
 moviepy
 - name: Install dependencies
