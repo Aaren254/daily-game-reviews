@@ -26,6 +26,12 @@ jobs:
     - name: Upload to YouTube
       run: python upload_to_youtube.py
       env:
+      - name: Install dependencies
+  run: |
+    pip install openai moviepy
+    sudo apt-get update
+    sudo apt-get install -y ffmpeg
+
         YOUTUBE_CLIENT_ID: ${{ secrets.YOUTUBE_CLIENT_ID }}
         YOUTUBE_CLIENT_SECRET: ${{ secrets.YOUTUBE_CLIENT_SECRET }}
         YOUTUBE_REFRESH_TOKEN: ${{ secrets.YOUTUBE_REFRESH_TOKEN }}
