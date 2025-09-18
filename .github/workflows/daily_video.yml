@@ -30,7 +30,7 @@ jobs:
         # Example: Ensure the video generation code writes to output.mp4
           import cv2
         # ... your video creation logic ...
-        cv2.VideoWriter('output.mp4', ...)
+          cv2.VideoWriter('output.mp4', ...)
      
       - name: Run video upload script
         env:
