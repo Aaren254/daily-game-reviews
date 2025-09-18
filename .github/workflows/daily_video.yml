@@ -22,7 +22,16 @@ jobs:
         run: |
           python -m pip install --upgrade pip
           pip install -r requirements.txt
-
+    - name: Check for output.mp4
+      run: |
+        if [ ! -f output.mp4 ]; then
+          echo "output.mp4 not found!"
+          exit 1
+        fi
+        # Example: Ensure the video generation code writes to output.mp4
+        import cv2
+        # ... your video creation logic ...
+        cv2.VideoWriter('output.mp4', ...)
       - name: Run video upload script
         env:
           YOUTUBE_CLIENT_ID: ${{ secrets.YOUTUBE_CLIENT_ID }}\
@@ -32,3 +41,4 @@ jobs:
           YOUTUBE_CHANNEL_ID: ${{ secrets.YOUTUBE_CHANNEL_ID }}
         run: |
           python upload_video.py
+          
