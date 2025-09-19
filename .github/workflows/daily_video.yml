@@ -36,13 +36,21 @@ jobs:
           # ... your video creation logic ...
           cv2.VideoWriter('output.mp4', ...)
      
-      - name: Run video upload script
+      - name: Run script
         env:
           YOUTUBE_CLIENT_SECRET: ${{ secrets.YOUTUBE_CLIENT_SECRET }}
-          YOUTUBE_CLIENT_ID: ${{ secrets.YOUTUBE_CLIENT_ID }}\
+          YOUTUBE_CLIENT_ID: ${{ secrets.YOUTUBE_CLIENT_ID }}
+      - name: Debug env
+        run: echo "Secret length: ${#YOUTUBE_REFRESH_TOKEN}"
+         env:
           YOUTUBE_REFRESH_TOKEN: ${{ secrets.YOUTUBE_REFRESH_TOKEN }}
+          YOUTUBE_REFRESH_TOKEN: ${{ secrets.YOUTUBE_REFRESH_TOKEN }}
+          run: python your_script.py
           YOUTUBE_API_KEY: ${{ secrets.YOUTUBE_API_KEY }}
           YOUTUBE_CHANNEL_ID: ${{ secrets.YOUTUBE_CHANNEL_ID }}
         run: |
           python upload_video.py
+          - name: Debug env
+  
+
           
