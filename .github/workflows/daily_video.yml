@@ -1,16 +1,17 @@
+name: Daily Game Review Video
+
 permissions:
   contents: write
   issues: write
   pull-requests: write
-name: Daily Game Review Video
 
 on:
   schedule:
     - cron: '0 12 * * *'  # runs every day at 12:00 UTC
   workflow_dispatch:      # allows manual trigger
-  
+
 jobs:
-    build-and-upload:
+  build-and-upload:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repo 
@@ -24,7 +25,8 @@ jobs:
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
-           pip install -r requirements.txt
+          pip install -r requirements.txt
+
       - name: Check for output.mp4
         run: |
           if [ ! -f output.mp4 ]; then
@@ -32,25 +34,26 @@ jobs:
             exit 1
           fi
           # Example: Ensure the video generation code writes to output.mp4
-          import cv2
-          # ... your video creation logic ...
-          cv2.VideoWriter('output.mp4', ...)
-     
+          # (Remove the Python inline code here – GitHub Actions shell `run` blocks
+          # don’t execute Python scripts unless you call `python` explicitly)
+
       - name: Run script
         env:
           YOUTUBE_CLIENT_SECRET: ${{ secrets.YOUTUBE_CLIENT_SECRET }}
           YOUTUBE_CLIENT_ID: ${{ secrets.YOUTUBE_CLIENT_ID }}
-      - name: Debug env
-        run: echo "Secret length: ${#YOUTUBE_REFRESH_TOKEN}"
-         env:
           YOUTUBE_REFRESH_TOKEN: ${{ secrets.YOUTUBE_REFRESH_TOKEN }}
-          YOUTUBE_REFRESH_TOKEN: ${{ secrets.YOUTUBE_REFRESH_TOKEN }}
-          run: python your_script.py
           YOUTUBE_API_KEY: ${{ secrets.YOUTUBE_API_KEY }}
           YOUTUBE_CHANNEL_ID: ${{ secrets.YOUTUBE_CHANNEL_ID }}
-        run: |
-          python upload_video.py
-          - name: Debug env
-  
+        run: python your_script.py
 
-          
+      - name: Debug env
+        run: echo "Secret length: ${#YOUTUBE_REFRESH_TOKEN}"
+
+      - name: Upload video
+        env:
+          YOUTUBE_CLIENT_SECRET: ${{ secrets.YOUTUBE_CLIENT_SECRET }}
+          YOUTUBE_CLIENT_ID: ${{ secrets.YOUTUBE_CLIENT_ID }}
+          YOUTUBE_REFRESH_TOKEN: ${{ secrets.YOUTUBE_REFRESH_TOKEN }}
+          YOUTUBE_API_KEY: ${{ secrets.YOUTUBE_API_KEY }}
+          YOUTUBE_CHANNEL_ID: ${{ secrets.YOUTUBE_CHANNEL_ID }}
+        run: python upload_video.py
