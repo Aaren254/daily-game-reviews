@@ -47,8 +47,7 @@ jobs:
         run: python your_script.py
 
       - name: Debug env
-        run: echo "Secret length: ${#YOUTUBE_REFRESH_TOKEN}"
-
+        run: 'echo "Secret length: ${#YOUTUBE_REFRESH_TOKEN}"'
       - name: Upload video
         env:
           YOUTUBE_CLIENT_SECRET: ${{ secrets.YOUTUBE_CLIENT_SECRET }}
