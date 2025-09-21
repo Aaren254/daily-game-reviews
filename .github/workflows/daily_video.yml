@@ -45,7 +45,9 @@ jobs:
         run: python your_script.py
 
       - name: Debug env
-        run: echo "Secret length: ${{ secrets.YOUTUBE_REFRESH_TOKEN }}"
+        env:
+          YOUTUBE_REFRESH_TOKEN: ${{ secrets.YOUTUBE_REFRESH_TOKEN }}
+        run: echo "Secret length: ${#YOUTUBE_REFRESH_TOKEN}"
 
       - name: Upload video
         env:
@@ -54,4 +56,4 @@ jobs:
           YOUTUBE_REFRESH_TOKEN: ${{ secrets.YOUTUBE_REFRESH_TOKEN }}
           YOUTUBE_API_KEY: ${{ secrets.YOUTUBE_API_KEY }}
           YOUTUBE_CHANNEL_ID: ${{ secrets.YOUTUBE_CHANNEL_ID }}
-        run: pyth
+        run: python upload_video.py
