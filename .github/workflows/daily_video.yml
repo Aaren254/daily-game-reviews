@@ -1,4 +1,5 @@
-- name: Generate video
+- name: Run Video Generation Script
   env:
     OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
-  run: python generate_video.py
+  run: |
+    python generate_video.py
