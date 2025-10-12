@@ -40,15 +40,4 @@ jobs:
             echo "❌ output.mp4 not found!"
             exit 1
           fi
-          echo "✅ output.mp4 generated successfully."
-
-      - name: Upload to YouTube
-        uses: dessant/youtube-upload-action@v1
-        with:
-          args: |
-            --title "Daily Game Review"
-            --description "Automatically generated review with AI + GitHub Actions."
-            --privacy public
-            output.mp4
-        env:
-          CLIENT_ID: ${{ secrets.YOUTUBE_CLIENT_ID }}
+          echo "✅ output.mp4 gener
