@@ -27,15 +27,21 @@ jobs:
           python -m pip install --upgrade pip
           pip install -r requirements.txt
 
+      - name: Run script to generate video
+        env:
+          YOUTUBE_CLIENT_SECRET: ${{ secrets.YOUTUBE_CLIENT_SECRET }}
+        run: |
+          python your_script.py  # <-- change to your actual script name
+
       - name: Check for output.mp4
         run: |
           if [ ! -f output.mp4 ]; then
             echo "output.mp4 not found!"
             exit 1
           fi
-          # Make sure your video generation script writes to output.mp4
 
-      - name: Run script
-        env:
-         YOUTUBE_CLIENT_SECRET:
-
+      - name: Upload artifact (optional - for debugging)
+        uses: actions/upload-artifact@v3
+        with:
+          name: generated-video
+          path: output.mp4
