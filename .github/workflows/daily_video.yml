@@ -1,18 +1,14 @@
 name: Daily Game Review Video
 
-permissions:
-  contents: write
-  issues: write
-  pull-requests: write
-
 on:
   schedule:
-    - cron: '0 12 * * *'  # runs every day at 12:00 UTC
-  workflow_dispatch:      # allows manual trigger
+    - cron: "0 12 * * *"   # Runs daily at 12:00 UTC
+  workflow_dispatch:       # Allows manual run
 
 jobs:
-  build-and-upload:
+  build:
     runs-on: ubuntu-latest
+
     steps:
       - name: Checkout repo
         uses: actions/checkout@v3
@@ -20,28 +16,32 @@ jobs:
       - name: Set up Python
         uses: actions/setup-python@v4
         with:
-          python-version: '3.11'
+          python-version: "3.10"
 
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
           pip install -r requirements.txt
+          sudo apt-get update
+          sudo apt-get install -y ffmpeg
 
-      - name: Run script to generate video
+      - name: Generate video with voice
         env:
-          YOUTUBE_CLIENT_SECRET: ${{ secrets.YOUTUBE_CLIENT_SECRET }}
-        run: |
-          python your_script.py  # <-- change to your actual script name
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+        run: python generate_video.py
 
       - name: Check for output.mp4
         run: |
           if [ ! -f output.mp4 ]; then
-            echo "output.mp4 not found!"
+            echo "❌ output.mp4 not found! Generation failed."
             exit 1
           fi
+          echo "✅ Video generated successfully."
 
-      - name: Upload artifact (optional - for debugging)
-        uses: actions/upload-artifact@v3
-        with:
-          name: generated-video
-          path: output.mp4
+      - name: Print refresh token length (debug - safe)
+        # Map secret to an env var, then use bash to print only length.
+        env:
+          YOUTUBE_REFRESH_TOKEN: ${{ secrets.YOUTUBE_REFRESH_TOKEN }}
+        run: |
+          # Do NOT print the token itself. This prints only its length.
+          echo "Refr
