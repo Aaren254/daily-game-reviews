@@ -3,7 +3,7 @@ name: Daily Game Review Video
 on:
   schedule:
     - cron: "0 12 * * *"   # Runs daily at 12:00 UTC
-  workflow_dispatch:       # Allows manual run
+  workflow_dispatch:
 
 jobs:
   build:
@@ -38,10 +38,15 @@ jobs:
           fi
           echo "✅ Video generated successfully."
 
-      - name: Print refresh token length (debug - safe)
-        # Map secret to an env var, then use bash to print only length.
+      - name: Upload to YouTube
+        uses: dessant/youtube-upload-action@v1
+        with:
+          args: >
+            --title "Daily Game Review"
+            --description "Automatically generated review with AI + GitHub Actions."
+            --privacy public
+            output.mp4
         env:
-          YOUTUBE_REFRESH_TOKEN: ${{ secrets.YOUTUBE_REFRESH_TOKEN }}
-        run: |
-          # Do NOT print the token itself. This prints only its length.
-          echo "Refr
+          CLIENT_ID: ${{ secrets.YOUTUBE_CLIENT_ID }}
+          CLIENT_SECRET: ${{ secrets.YOUTUBE_CLIENT_SECRET }}
+          REFRESH_TOKEN: ${{ secrets.YOUTUBE_REFRESH_TOKEN }}
