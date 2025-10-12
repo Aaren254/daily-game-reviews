@@ -1,5 +1,9 @@
 name: Daily Game Review Video
 
+concurrency:
+  group: daily-video-upload
+  cancel-in-progress: false
+
 on:
   schedule:
     - cron: "0 12 * * *"   # runs daily at 12:00 UTC
@@ -41,12 +45,10 @@ jobs:
       - name: Upload to YouTube
         uses: dessant/youtube-upload-action@v1
         with:
-          args: >
+          args: |
             --title "Daily Game Review"
             --description "Automatically generated review with AI + GitHub Actions."
             --privacy public
             output.mp4
         env:
           CLIENT_ID: ${{ secrets.YOUTUBE_CLIENT_ID }}
-          CLIENT_SECRET: ${{ secrets.YOUTUBE_CLIENT_SECRET }}
-          REFRESH_TOKEN: ${{ secrets.YOUTUBE_REFRESH_TOKEN }}
